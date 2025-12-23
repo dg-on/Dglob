@@ -5,631 +5,1017 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DGLOB TECHNOLOGY Feed</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-        <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Inter', 'Nunito', sans-serif;
-    }
-    
-    html, body {
-        width: 100%;
-        overflow-x: hidden;
-        background-color: #f8fafc; /* Light blue-gray background */
-        color: #1e293b; /* Dark blue-gray for text */
-        font-weight: 300;
-        line-height: 1.4;
-    }
-    
-    .app-container {
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: white;
-        min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-    }
-    
-    /* HEADER - DGLOB Blue Theme */
-    .header {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); /* DGLOB blue gradient */
-        border-bottom: 1px solid #1e3a8a;
-        padding: 12px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-    
-    .logo-img {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 18px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        flex-shrink: 0;
-    }
-    
-    .logo-text {
-        font-size: 18px;
-        font-weight: 600;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    }
-    
-    .icon-btn {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        cursor: pointer;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: all 0.2s;
-        flex-shrink: 0;
-    }
-    
-    .icon-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(1.05);
-    }
-    
-    .icon-btn svg {
-        fill: white;
-    }
-    
-    /* SEARCH BAR */
-    .search-bar {
-        padding: 16px;
-        border-bottom: 1px solid #e2e8f0;
-        width: 100%;
-        background-color: #f1f5f9;
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: 12px 16px 12px 44px;
-        border: 2px solid #e2e8f0;
-        border-radius: 25px;
-        background-color: white;
-        font-size: 15px;
-        color: #1e293b;
-        box-sizing: border-box;
-        transition: all 0.3s;
-    }
-    
-    .search-input:focus {
-        outline: none;
-        background-color: white;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-    
-    /* POSTS */
-    .post {
-        background-color: white;
-        border-bottom: 1px solid #e2e8f0;
-        padding: 16px;
-        width: 100%;
-        box-sizing: border-box;
-        transition: background-color 0.3s;
-    }
-    
-    .post:hover {
-        background-color: #f8fafc;
-    }
-    
-    .post-profile-pic {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 500;
-        margin-right: 10px;
-        flex-shrink: 0;
-        border: 2px solid #e2e8f0;
-    }
-    
-    .post-author {
-        font-weight: 600;
-        font-size: 15px;
-        margin-bottom: 2px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: #1e293b;
-    }
-    
-    .post-time {
-        font-size: 13px;
-        color: #64748b;
-        white-space: nowrap;
-    }
-    
-    .post-text {
-        font-size: 15px;
-        margin-bottom: 12px;
-        line-height: 1.5;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        width: 100%;
-        color: #334155;
-    }
-    
-    .post-image {
-        width: 100%;
-        border-radius: 12px;
-        margin-bottom: 12px;
-        max-height: 400px;
-        object-fit: cover;
-        border: 1px solid #e2e8f0;
-        box-sizing: border-box;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-    
-    .post-actions {
-        display: flex;
-        justify-content: space-around;
-        padding-top: 8px;
-        border-top: 1px solid #f1f5f9;
-        width: 100%;
-    }
-    
-    .post-action {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 8px 12px;
-        cursor: pointer;
-        border-radius: 8px;
-        flex: 1;
-        justify-content: center;
-        transition: all 0.2s;
-        min-width: 0;
-        color: #64748b;
-    }
-    
-    .post-action:hover {
-        background-color: #f1f5f9;
-        color: #3b82f6;
-    }
-    
-    .post-action:hover svg {
-        fill: #3b82f6;
-    }
-    
-    .action-text {
-        font-size: 14px;
-        color: inherit;
-        font-weight: 500;
-        white-space: nowrap;
-    }
-    
-    /* MENU PAGE - Updated colors */
-    .menu-header {
-        padding: 16px;
-        border-bottom: 1px solid #e2e8f0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
-        box-sizing: border-box;
-        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    }
-    
-    .menu-profile-pic {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 24px;
-        flex-shrink: 0;
-        border: 3px solid white;
-        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
-    }
-    
-    .menu-user-info h2 {
-        font-weight: 700;
-        font-size: 18px;
-        margin-bottom: 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: #1e293b;
-    }
-    
-    .menu-user-info p {
-        font-size: 14px;
-        color: #64748b;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    .menu-item {
-        background-color: white;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 16px 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-align: center;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .menu-item:hover {
-        background-color: #f8fafc;
-        border-color: #3b82f6;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.1);
-    }
-    
-    .menu-icon {
-        width: 28px;
-        height: 28px;
-        margin-bottom: 8px;
-        color: #3b82f6;
-        flex-shrink: 0;
-    }
-    
-    /* PROFILE PAGE */
-    .profile-header {
-        padding: 30px 16px;
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-        border-bottom: 1px solid #1e3a8a;
-        text-align: center;
-        width: 100%;
-        box-sizing: border-box;
-        color: white;
-    }
-    
-    .profile-pic-large {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 40px;
-        margin: 0 auto 16px;
-        flex-shrink: 0;
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-    
-    .profile-name {
-        font-weight: 700;
-        font-size: 24px;
-        margin-bottom: 8px;
-        word-wrap: break-word;
-        color: white;
-    }
-    
-    /* BUTTONS - DGLOB Blue */
-    .back-btn {
-        background: none;
-        border: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 16px;
-        cursor: pointer;
-        color: #3b82f6;
-        font-weight: 600;
-        width: 100%;
-        box-sizing: border-box;
-        border-bottom: 1px solid #e2e8f0;
-        transition: all 0.2s;
-        background-color: #f8fafc;
-    }
-    
-    .back-btn:hover {
-        background-color: #f1f5f9;
-        color: #1e40af;
-    }
-    
-    /* PAGE TITLES - DGLOB Blue */
-    .page-title {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        color: #1e40af;
-        position: relative;
-        padding-bottom: 10px;
-    }
-    
-    .page-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 4px;
-        background: linear-gradient(90deg, #3b82f6, #1e40af);
-        border-radius: 2px;
-    }
-    
-    /* HIGHLIGHT BOXES */
-    .highlight-box {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        border-left: 4px solid #3b82f6;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 0 12px 12px 0;
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-    }
-    
-    /* BOOK CARDS */
-    .book-card {
-        display: flex;
-        gap: 16px;
-        padding: 20px;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        background-color: white;
-        transition: all 0.3s;
-    }
-    
-    .book-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        border-color: #3b82f6;
-    }
-    
-    .buy-btn {
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 14px;
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-    }
-    
-    .buy-btn:hover {
-        background: linear-gradient(135deg, #1e40af, #1e3a8a);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-    }
-    
-    /* CONTACT PAGE */
-    .contact-card {
-        background-color: white;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 24px;
-        margin: 20px 0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-    
-    .contact-icon {
-        width: 24px;
-        height: 24px;
-        color: #3b82f6;
-        flex-shrink: 0;
-    }
-    
-    .whatsapp-btn {
-        background: linear-gradient(135deg, #25D366, #128C7E);
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        width: fit-content;
-        transition: all 0.3s;
-        box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
-    }
-    
-    .whatsapp-btn:hover {
-        background: linear-gradient(135deg, #128C7E, #0d6e5e);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-    }
-    
-    .social-link {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #3b82f6;
-        text-decoration: none;
-        transition: all 0.3s;
-        border: 2px solid #e2e8f0;
-    }
-    
-    .social-link:hover {
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        border-color: #3b82f6;
-    }
-    
-    /* TEAM CARDS */
-    .team-card {
-        background-color: white;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        transition: all 0.3s;
-    }
-    
-    .team-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        border-color: #3b82f6;
-    }
-    
-    .team-photo {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 24px;
-        margin: 0 auto 16px;
-        border: 3px solid white;
-        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
-    }
-    
-    .team-role {
-        font-size: 14px;
-        color: #3b82f6;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
-    
-    /* NOTIFICATION */
-    .notification {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        color: white;
-        padding: 16px 24px;
-        border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
-        z-index: 1001;
-        max-width: 90%;
-        width: auto;
-        text-align: center;
-        animation: slideIn 0.3s ease, fadeOut 0.5s ease 3.5s forwards;
-        display: none;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        font-weight: 500;
-    }
-    
-    /* SHARE MODAL */
-    .share-content {
-        background-color: white;
-        width: 100%;
-        max-width: 500px;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        box-sizing: border-box;
-        border: 1px solid #e2e8f0;
-    }
-    
-    .share-option {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .share-option:hover {
-        background-color: #f8fafc;
-        border-color: #3b82f6;
-        transform: translateY(-2px);
-    }
-    
-    /* FOOTER */
-    #foot {
-        color: #3b82f6;
-        text-align: center;
-        padding: 20px;
-        background: #f8fafc;
-        border-top: 1px solid #e2e8f0;
-        font-size: 14px;
-    }
-    
-    /* ANIMATIONS */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .page {
-        animation: fadeIn 0.3s ease;
-    }
-    
-    /* RESPONSIVE */
-    @media (max-width: 600px) {
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Nunito', sans-serif;
+        }
+        
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: #f5f8fa;
+            color: #2d3748;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        
         .app-container {
             width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
         
+        /* FIXED HEADER */
         .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            border-bottom: 1px solid #1e3a8a;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             width: 100%;
         }
         
-        .menu-grid {
-            grid-template-columns: repeat(3, 1fr);
+        .logo-container {
+            display: flex;
+            align-items: center;
             gap: 10px;
+            max-width: 200px;
+            overflow: hidden;
         }
         
-        .menu-item {
-            padding: 12px 6px;
-        }
-        
-        .menu-label {
-            font-size: 12px;
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
         }
         
         .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+        
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .icon-btn svg {
+            fill: white;
+        }
+        
+        /* Page Containers */
+        .page {
+            display: none;
+            min-height: calc(100vh - 53px);
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Search Bar */
+        .search-bar {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            width: 100%;
+            background-color: #f8fafc;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background-color: white;
+            font-size: 15px;
+            color: #2d3748;
+            box-sizing: border-box;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            background-color: white;
+            border-color: #3b82f6;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: #64748b;
+            pointer-events: none;
+        }
+        
+        /* Posts */
+        .posts-container {
+            padding-bottom: 20px;
+            width: 100%;
+        }
+        
+        .post {
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+        
+        .post-profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            margin-right: 10px;
+            flex-shrink: 0;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .post-info {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+        
+        .post-author {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #1e293b;
+        }
+        
+        .post-time {
+            font-size: 13px;
+            color: #64748b;
+            white-space: nowrap;
+        }
+        
+        .post-text {
+            font-size: 15px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: 100%;
+            color: #334155;
+        }
+        
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            max-height: 400px;
+            object-fit: cover;
+            border: 1px solid #e2e8f0;
+            box-sizing: border-box;
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 8px;
+            border-top: 1px solid #f1f5f9;
+            width: 100%;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 4px;
+            cursor: pointer;
+            border-radius: 4px;
+            flex: 1;
+            justify-content: center;
+            transition: background-color 0.2s;
+            min-width: 0;
+            color: #64748b;
+        }
+        
+        .post-action:hover {
+            background-color: #f1f5f9;
+            color: #3b82f6;
+        }
+        
+        .post-action:hover svg {
+            fill: #3b82f6;
+        }
+        
+        .action-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        
+        .action-text {
+            font-size: 14px;
+            color: inherit;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        /* Share Modal */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .share-modal.active {
+            display: flex;
+        }
+        
+        .share-content {
+            background-color: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        
+        .share-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .share-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: #1e293b;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+        
+        .share-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+        
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .share-option:hover {
+            background-color: #f1f5f9;
+            border-color: #3b82f6;
+        }
+        
+        .share-icon {
+            width: 24px;
+            height: 24px;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+        
+        .share-label {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #1e293b;
+        }
+        
+        .share-url {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            width: 100%;
+            box-sizing: border-box;
+            color: #334155;
+        }
+        
+        /* Welcome Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            z-index: 1001;
+            max-width: 90%;
+            width: auto;
+            text-align: center;
+            animation: slideIn 0.3s ease, fadeOut 0.5s ease 3.5s forwards;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes slideIn {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+        
+        /* Menu Page */
+        .menu-header {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #f8fafc;
+        }
+        
+        .menu-profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 24px;
+            flex-shrink: 0;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        
+        .menu-user-info {
+            min-width: 0;
+            flex: 1;
+        }
+        
+        .menu-user-info h2 {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #1e293b;
+        }
+        
+        .menu-user-info p {
+            font-size: 14px;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .menu-item {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .menu-item:hover {
+            background-color: #f1f5f9;
+            border-color: #3b82f6;
+        }
+        
+        .menu-icon {
+            width: 28px;
+            height: 28px;
+            margin-bottom: 8px;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+        
+        .menu-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1e293b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+        
+        /* Profile Page */
+        .profile-header {
+            padding: 20px 16px;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            border-bottom: 1px solid #1e3a8a;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            color: white;
+        }
+        
+        .profile-pic-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 40px;
+            margin: 0 auto 16px;
+            flex-shrink: 0;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .profile-name {
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+            color: white;
+        }
+        
+        .profile-info {
+            padding: 20px 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .profile-info-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .profile-info-label {
+            font-weight: 500;
+            width: 120px;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+        
+        .profile-info-value {
+            flex: 1;
+            min-width: 0;
+            word-wrap: break-word;
+            color: #334155;
+        }
+        
+        /* Back Button for all pages */
+        .back-btn {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            cursor: pointer;
+            color: #3b82f6;
+            font-weight: 500;
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+        }
+        
+        /* Content Pages Styling */
+        .page-content {
+            padding: 20px 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .page-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+            color: #1e293b;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            margin: 16px 0 8px 0;
+            color: #3b82f6;
+        }
+        
+        .content-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            color: #334155;
+        }
+        
+        .highlight-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box strong {
+            color: #1e3a8a;
+        }
+        
+        .list-item {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            color: #334155;
+        }
+        
+        .list-item:before {
+            content: "•";
+            color: #3b82f6;
+            font-weight: bold;
+            position: absolute;
+            left: 8px;
+        }
+        
+        /* Books Page */
+        .book-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        
+        .book-card {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: white;
+            transition: transform 0.2s;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #3b82f6;
+        }
+        
+        .book-cover {
+            width: 80px;
+            height: 100px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            flex-shrink: 0;
+            padding: 10px;
+        }
+        
+        .book-info {
+            flex: 1;
+        }
+        
+        .book-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        
+        .book-description {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .buy-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+        
+        .buy-btn:hover {
+            background-color: #2563eb;
+        }
+        
+        /* Learn/Courses Page */
+        .courses-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .courses-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #eff6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: #3b82f6;
+        }
+        
+        .courses-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1e3a8a;
+        }
+        
+        .courses-text {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        .notify-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
             font-size: 16px;
         }
-    }
-        </style>
+        
+        .notify-btn:hover {
+            background-color: #2563eb;
+        }
+        
+        /* Contact Page */
+        .contact-card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            width: fit-content;
+            transition: background-color 0.2s;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .social-link:hover {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .contact-message {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-style: italic;
+            color: #64748b;
+        }
+        
+        /* Team Page */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 400px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .team-card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #3b82f6;
+        }
+        
+        .team-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 24px;
+            margin: 0 auto 16px;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        
+        .team-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+        
+        .team-role {
+            font-size: 14px;
+            color: #3b82f6;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .team-description {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        /* Footer */
+        #foot {
+            color: #3b82f6;
+            text-align: center;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .app-container {
+                width: 100%;
+            }
+            
+            .header {
+                width: 100%;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .menu-item {
+                padding: 12px 6px;
+            }
+            
+            .menu-label {
+                font-size: 12px;
+            }
+            
+            .logo-text {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 350px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .post-actions {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .logo-text {
+                font-size: 14px;
+            }
+        }
+        
+        /* Prevent horizontal scroll */
+        .no-scroll {
+            overflow: hidden;
+        }
+        
+        /* Transitions */
+        .page {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
     <!-- Welcome Notification -->
@@ -646,12 +1032,12 @@
             </div>
             <div class="header-icons">
                 <button class="icon-btn" id="home-btn">
-                    <svg class="action-icon" viewBox="0 0 24 24" fill="#1877f2">
+                    <svg class="action-icon" viewBox="0 0 24 24" fill="white">
                         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                     </svg>
                 </button>
                 <button class="icon-btn" id="menu-btn">
-                    <svg class="action-icon" viewBox="0 0 24 24" fill="#65676b">
+                    <svg class="action-icon" viewBox="0 0 24 24" fill="white">
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
                 </button>
@@ -675,12 +1061,8 @@
                 <!-- Posts will be inserted here by JavaScript -->
             </div>
 
-
-
-
-
             <footer id="foot">
-           <strong> Dglob Technology </strong>
+                <strong>Dglob Technology</strong>
             </footer>
         </div>
         
@@ -702,7 +1084,7 @@
         <!-- Profile Page -->
         <div class="page" id="profile-page">
             <button class="back-btn" id="profile-back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
                 Back to Menu
@@ -736,7 +1118,7 @@
         <!-- About DGLOB Page -->
         <div class="page" id="about-page">
             <button class="back-btn" id="about-back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
                 Back to Menu
@@ -787,7 +1169,7 @@
         <!-- Books Page -->
         <div class="page" id="books-page">
             <button class="back-btn" id="books-back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
                 Back to Menu
@@ -805,7 +1187,7 @@
         <!-- Learn/Courses Page -->
         <div class="page" id="courses-page">
             <button class="back-btn" id="courses-back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
                 Back to Menu
@@ -813,7 +1195,7 @@
             <div class="page-content">
                 <div class="courses-container">
                     <div class="courses-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="#1877f2">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="#3b82f6">
                             <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
                         </svg>
                     </div>
@@ -833,7 +1215,7 @@
         <!-- Contact Page -->
         <div class="page" id="contact-page">
             <button class="back-btn" id="contact-back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
                 Back to Menu
@@ -849,8 +1231,8 @@
                                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                             </svg>
                             <div>
-                                <div style="font-weight: 500;">Email</div>
-                                <div>dglob.info@gmail.com</div>
+                                <div style="font-weight: 500; color: #1e293b;">Email</div>
+                                <div style="color: #334155;">dglob.info@gmail.com</div>
                             </div>
                         </div>
                         
@@ -859,10 +1241,10 @@
                                 <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/>
                             </svg>
                             <div>
-                                <div style="font-weight: 500;">WhatsApp</div>
+                                <div style="font-weight: 500; color: #1e293b;">WhatsApp</div>
                                 <a href="https://wa.me/2348112666133" class="whatsapp-btn" target="_blank">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                                        <path d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.02-.47.36-2.96-.73-2.49-1.09-3.99-3.75-4.11-3.92-.12-.17-.96-1.38-.92-2.61.05-1.22.69-1.8.95-2.04.24-.26.51-.29.68-.26h.47c.15 0 .36-.06.55.45l.69 1.87c.06.13.1.28.01.44l-.27.41-.39.42c-.12.12-.26.25-.12.5.12.26.62 1.09 1.32 1.78.91.88 1.71 1.17 1.95 1.3.24.14.39.12.54-.04l.81-.94c.19-.25.35-.19.58-.11l1.67.88M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.97 0-3.8-.57-5.35-1.55L2 22l1.55-4.65A9.969 9.969 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.72.54 3.31 1.46 4.61L4.5 19.5l2.89-.96A7.95 7.95 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z"/>
+                                        <path d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.02-.47.36-2.96-.73-2.49-1.09-3.99-3.75-4.11-3.92-.12-.17-.96-1.38-.92-2.61.05-1.22.69-1.8.95-2.04.24-.26.51-.29.68-.26h.47c.15 0 .36-.06.55.45l.69 1.87c.06.13.10.28.01.44l-.27.41-.39.42c-.12.12-.26.25-.12.5.12.26.62 1.09 1.32 1.78.91.88 1.71 1.17 1.95 1.3.24.14.39.12.54-.04l.81-.94c.19-.25.35-.19.58-.11l1.67.88M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.97 0-3.8-.57-5.35-1.55L2 22l1.55-4.65A9.969 9.969 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.72.54 3.31 1.46 4.61L4.5 19.5l2.89-.96A7.95 7.95 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z"/>
                                     </svg>
                                     Chat on WhatsApp
                                 </a>
@@ -871,21 +1253,21 @@
                     </div>
                     
                     <div style="margin-top: 24px;">
-                        <div style="font-weight: 500; margin-bottom: 12px;">Follow us on social media:</div>
+                        <div style="font-weight: 500; margin-bottom: 12px; color: #1e293b;">Follow us on social media:</div>
                         <div class="social-links">
                             <a href="#" class="social-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                                     <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/>
                                 </svg>
                             </a>
                             <a href="#" class="social-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                                     <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
                                 </svg>
                             </a>
                             <a href="#" class="social-link">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
-                                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
+                                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.60 1.56-1.36 2.14-2.23z"/>
                                 </svg>
                             </a>
                         </div>
@@ -901,7 +1283,7 @@
         <!-- Team Page -->
         <div class="page" id="team-page">
             <button class="back-btn" id="team-back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
                 Back to Menu
@@ -946,7 +1328,7 @@
                 <div class="share-url" id="share-url">
                     Loading share URL...
                 </div>
-                <div style="margin-top: 12px; font-size: 12px; color: #65676b; text-align: center;">
+                <div style="margin-top: 12px; font-size: 12px; color: #64748b; text-align: center;">
                     Copy the link above to share outside DGLOB TECHNOLOGY
                 </div>
             </div>
@@ -979,7 +1361,7 @@
         const posts = [
             {
                 text: "The future is not coming, it's already here, and DGLOB TECHNOLOGY is shaping it. Every system we build brings us closer to the world we envision.",
-            image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600&auto=format&q=75",
+                image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600&auto=format&q=75",
                 time: "Just Now",
                 id: "future-shaping"
             },
@@ -1195,8 +1577,8 @@
             if (filteredPosts.length === 0) {
                 postsContainer.innerHTML = `
                     <div class="post" style="text-align: center; padding: 40px 16px;">
-                        <div style="font-size: 16px; color: #65676b; margin-bottom: 8px;">No posts found</div>
-                        <div style="font-size: 14px; color: #8a8d91;">Try different search terms</div>
+                        <div style="font-size: 16px; color: #64748b; margin-bottom: 8px;">No posts found</div>
+                        <div style="font-size: 14px; color: #94a3b8;">Try different search terms</div>
                     </div>
                 `;
                 return;
@@ -1223,7 +1605,7 @@
                     ${imageHTML}
                     <div class="post-actions">
                         <div class="post-action share-btn">
-                            <svg class="action-icon" viewBox="0 0 24 24" fill="#65676b">
+                            <svg class="action-icon" viewBox="0 0 24 24" fill="#64748b">
                                 <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
                             </svg>
                             <span class="action-text">Share</span>
@@ -1350,7 +1732,7 @@
                 if (postElement) {
                     setTimeout(() => {
                         postElement.scrollIntoView({ behavior: 'smooth' });
-                        postElement.style.backgroundColor = '#f8f9fa';
+                        postElement.style.backgroundColor = '#f0f9ff';
                         setTimeout(() => {
                             postElement.style.backgroundColor = '';
                         }, 2000);
@@ -1378,10 +1760,10 @@
             const url = shareUrlElement.textContent;
             navigator.clipboard.writeText(url).then(() => {
                 copyLinkBtn.innerHTML = `
-                    <svg class="share-icon" viewBox="0 0 24 24" style="color: #4CAF50;">
+                    <svg class="share-icon" viewBox="0 0 24 24" style="color: #10b981;">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                     </svg>
-                    <div class="share-label" style="color: #4CAF50;">Link Copied!</div>
+                    <div class="share-label" style="color: #10b981;">Link Copied!</div>
                 `;
                 setTimeout(() => {
                     copyLinkBtn.innerHTML = `
@@ -1449,4 +1831,4 @@
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-</html>
+    </html>
